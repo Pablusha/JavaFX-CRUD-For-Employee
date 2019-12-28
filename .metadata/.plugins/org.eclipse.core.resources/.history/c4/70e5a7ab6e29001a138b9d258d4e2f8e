@@ -1,0 +1,25 @@
+package paket;
+
+import java.sql.Connection;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+
+public class AuthenticationController {
+
+    @FXML
+    private TextField txtUsername;
+
+    @FXML
+    private PasswordField pswPassword;
+
+    private Connection connection;
+    
+    
+    @FXML
+    void login(ActionEvent event) {
+	    	
+    }
+
+}

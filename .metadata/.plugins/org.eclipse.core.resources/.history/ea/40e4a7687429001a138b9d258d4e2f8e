@@ -1,0 +1,118 @@
+package paket;
+
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ResourceBundle;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+
+public class TableScreenController implements Initializable {
+
+    @FXML
+    private TableView<Employee> tblEmployee;
+
+    @FXML
+    private TableColumn<Employee, String> columnName;
+
+    @FXML
+    private TableColumn<Employee, String> columnSurname;
+
+    @FXML
+    private TableColumn<Employee, String> columnEmail;
+
+    private AnchorPane root;
+    private Scene scene;
+    private Stage stage;
+    private Connection connection;
+    private PreparedStatement query;
+    private ResultSet solutionCluster;
+    private ObservableList<Employee> employees = FXCollections.observableArrayList();
+    
+    @FXML
+    void add(ActionEvent event) {
+    	Button pressedButton = (Button) event.getSource();
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("AddEmployeeScreen.fxml"));
+    	try {
+			root = loader.load();
+			scene = new Scene(root);
+			stage = (Stage) pressedButton.getScene().getWindow();
+			stage.setScene(scene);
+			stage.show();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+    }
+
+    @FXML
+    void delete(ActionEvent event) {
+    	int index = tblEmployee.getSelectionModel().getSelectedIndex();
+    	if (index == -1) {
+			try {
+				query = connection.prepareStatement("DELETE FROM Employees WHERE Email="+"\'"+employees.get(index).getEmail() + "\'");
+				if (query.executeUpdate() == 1) {
+					Alert informationMessage = new Alert(AlertType.INFORMATION);
+					informationMessage.setTitle("Information");
+					informationMessage.setHeaderText("Successfully deleted.");
+					informationMessage.show();
+				} else {
+
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+    }
+
+    @FXML
+    void update(ActionEvent event) {
+    	int index = tblEmployee.getSelectionModel().getSelectedIndex();
+    	if (index != -1) {
+			Button pressedButton = (Button) event.getSource();
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("UpdateEmployeeScreen.fxml"));
+			try {
+				root = loader.load();
+				UpdateEmployeeController uec = loader.getController();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+    }
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		//Database connection and list the data in the tableview
+		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			connection = DriverManager.getConnection("jdbc:sqlserver://YASIN;database=Employee;integratedSecurity=true");
+			query = connection.prepareStatement("SELECT * FROM Employees");
+			solutionCluster = query.executeQuery();
+			while (solutionCluster.next()) {
+				employees.add(new Employee(solutionCluster.getString(1), solutionCluster.getString(2), solutionCluster.getString(3)));
+			}
+			columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
+			columnSurname.setCellValueFactory(new PropertyValueFactory<>("surname"));
+			columnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+			tblEmployee.setItems(employees);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
+}

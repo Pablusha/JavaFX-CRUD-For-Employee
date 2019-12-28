@@ -1,0 +1,53 @@
+package paket;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+
+public class AddEmployeeController {
+
+    @FXML
+    private TextField txtName;
+
+    @FXML
+    private TextField txtSurname;
+
+    @FXML
+    private TextField txtEmail;
+
+    private Connection connection;
+    private PreparedStatement query;
+    private ResultSet solutionCluster;
+    private AnchorPane root;
+    private Stage stage;
+    private Scene scene;
+    
+    
+    @FXML
+    void add(ActionEvent event) {
+    	String name = txtName.getText();
+    	String surname = txtSurname.getText();
+    	String email = txtEmail.getText();
+    	try {
+			query = connection.prepareStatement("INSERT INTO Employees (Name,Surname,Email) values(?,?,?)");
+			query.setString(1, name);
+			query.setString(2, surname);
+			query.setString(3, email);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+    }
+
+    @FXML
+    void turnBackToTableScreen(ActionEvent event) {
+
+    }
+
+}

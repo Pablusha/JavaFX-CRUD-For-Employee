@@ -1,0 +1,10 @@
+package paket;
+
+public class Employee {
+	
+	private String name,surname,email;
+	
+	
+	
+	
+}

@@ -1,0 +1,54 @@
+package paket;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+
+public class AuthenticationController {
+
+    @FXML
+    private TextField txtUsername;
+
+    @FXML
+    private PasswordField pswPassword;
+
+    private Connection connection;
+    private PreparedStatement query;
+    private ResultSet solutionCluster;
+    private AnchorPane root;
+    private Stage stage;
+    private Scene scene;
+    
+    
+    
+    @FXML
+    void login(ActionEvent event) {
+    	String username = txtUsername.getText();
+    	String password = pswPassword.getText();
+    	boolean isValid =false;	
+    	try {
+			while (solutionCluster.next()) {
+				if (solutionCluster.getString(1).equals(username)&&solutionCluster.getString(2).equals(þifre)) {
+					varmý=true;
+					Button basýlanbuton=(Button) event.getSource();
+					FXMLLoader loader=new FXMLLoader(getClass().getResource("TabloEkrani.fxml"));
+					root=loader.load();
+					scene=new Scene(root);
+					stage=(Stage) basýlanbuton.getScene().getWindow();
+					stage.setScene(scene);
+					stage.show();
+					break;
+				}
+			}
+
+    }
+
+}

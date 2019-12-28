@@ -1,0 +1,95 @@
+package paket;
+
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ResourceBundle;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+
+public class UpdateEmployeeController implements Initializable {
+
+    @FXML
+    private TextField txtName;
+
+    @FXML
+    private TextField txtSurname;
+
+    @FXML
+    private TextField txtEmail;
+
+    private AnchorPane root;
+    private Scene scene;
+    private Stage stage;
+    private PreparedStatement query;
+    private Connection connection;
+    private ResultSet solutionCluster;
+    private Employee employee;
+    
+    
+    
+    @FXML
+    void turnBackToTableScreen(ActionEvent event) {
+    	Button pressedButton = (Button) event.getSource();
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("TableScreen.fxml"));
+    	try {
+			root = loader.load();
+			scene = new Scene(root);
+			stage = (Stage) pressedButton.getScene().getWindow();
+			stage.setScene(scene);
+			stage.show();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+    }
+
+    @FXML
+    void update(ActionEvent event) {
+    	String name = txtName.getText();
+    	String surname = txtSurname.getText();
+    	try {
+			query = connection.prepareStatement("UPDATE Employees set Name=?,Surname=? WHERE Email="+"\'"+employee.getEmail()+"\'");
+			query.setString(1, name);
+			query.setString(2, surname);
+			if (query.executeUpdate() == 1) {
+				Alert informationMessage = new Alert(AlertType.INFORMATION);
+				informationMessage.setTitle("Information");
+				informationMessage.setHeaderText("Succesfully updated...");
+				informationMessage.show();
+			} else {
+
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+    }
+    
+    public void takeInformation(Employee employee) {
+    	this.employee = employee;
+    	txtName.setText(employee.getName());
+    	txtSurname.setText(employee.getSurname());
+    	txtEmail.setText(employee.getEmail());
+    }
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDrive")
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
+
+}

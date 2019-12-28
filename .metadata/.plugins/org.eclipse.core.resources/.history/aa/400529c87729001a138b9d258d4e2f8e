@@ -1,0 +1,54 @@
+package paket;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+
+public class UpdateEmployeeController {
+
+    @FXML
+    private TextField txtName;
+
+    @FXML
+    private TextField txtSurname;
+
+    @FXML
+    private TextField txtEmail;
+
+    private AnchorPane root;
+    private Scene scene;
+    private Stage stage;
+    private PreparedStatement query;
+    private Connection connection;
+    private ResultSet solutionCluster;
+    private Employee employee;
+    
+    
+    
+    @FXML
+    void turnBackToTableScreen(ActionEvent event) {
+    	
+    }
+
+    @FXML
+    void update(ActionEvent event) {
+    	String name = txtName.getText();
+    	String surname = txtSurname.getText();
+    	try {
+			query = connection.prepareStatement("UPDATE Employees set Name=?,Surname=? WHERE Email="+"\'"+employee.getEmail()+"\'");
+			query.setString(1, name);
+			query.setString(2, surname);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+    }
+
+}

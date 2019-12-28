@@ -1,0 +1,28 @@
+package paket;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+
+public class UpdateEmployeeController {
+
+    @FXML
+    private TextField txtName;
+
+    @FXML
+    private TextField txtSurname;
+
+    @FXML
+    private TextField txtEmail;
+
+    @FXML
+    void turnBackToTableScreen(ActionEvent event) {
+    	
+    }
+
+    @FXML
+    void update(ActionEvent event) {
+
+    }
+
+}

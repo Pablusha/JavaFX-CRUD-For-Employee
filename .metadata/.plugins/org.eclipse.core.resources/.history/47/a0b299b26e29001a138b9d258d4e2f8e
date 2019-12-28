@@ -1,0 +1,37 @@
+package paket;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.Scene;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+
+public class AuthenticationController {
+
+    @FXML
+    private TextField txtUsername;
+
+    @FXML
+    private PasswordField pswPassword;
+
+    private Connection connection;
+    private PreparedStatement query;
+    private ResultSet solutionCluster;
+    private AnchorPane root;
+    private Stage stage;
+    private Scene scene;
+    
+    
+    
+    @FXML
+    void login(ActionEvent event) {
+	    	
+    }
+
+}
