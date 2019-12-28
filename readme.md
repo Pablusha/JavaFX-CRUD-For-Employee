@@ -1,4 +1,4 @@
-# JavaFX Crud operations with Microsoft Sql Server
+# JavaFX Crud Operations With Microsoft Sql Server
 I shared the database backup.If you want you can use my database.
 
 You can use these instructions when importing Microsoft SQL Server into your application
